@@ -1,7 +1,6 @@
 <img src="./springBoot-icon.png" title="Spring Boot Icon" width="50"/> JAVA - SpringBoot 
 =================
 
----
 
 **Code Editor Used:** Intellij Community version <img src="./IntelliJ_IDEA_Icon.png" title="IntelliJ IDEA Icon" width="25"/>
 
@@ -32,7 +31,6 @@ Maven is build automation tool and external dependency injection.
 5.  `mvn install` - Save all dependencies to `.m2/repository`folder for future use in another projects.
 6.  `mvn clean` - clear the target folder or junk files from project.   
 
----
 
 ### IOC and Application Context:
 1.  **IOC** - Inversion of controller it means we can’t create object of class we ask spring for object and spring provides it by using It.  
@@ -45,7 +43,6 @@ Maven is build automation tool and external dependency injection.
 
 4. IOC scans classes and stores register classes through the application.
 
----
 
 ### Annotations:
 
@@ -100,7 +97,6 @@ Maven is build automation tool and external dependency injection.
 *   **Query Method DSL** - this is simple convenient way to create queries based on method naming conventions.
 *   **Criteria API** - It offers a more dynamic and programmatic approach for building complex and custom queries.
 
----
 
 ### Lombok:
 
@@ -111,7 +107,6 @@ Maven is build automation tool and external dependency injection.
     3. `@NonNull` - validate entity before save that it have to be not null  
     4. `@DBRef` - It refers to another collection mention while declaration of entity**
 
----
 
 ### Transaction:
 
@@ -131,7 +126,6 @@ For Implement the Transaction in the application functions have to annotated as 
 
 After adding annotation, we also have to create a `bean` of `PlatformTransactionManager` to implement it.
 
----
 
 ### Spring Security:
 
