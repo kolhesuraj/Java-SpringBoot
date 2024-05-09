@@ -38,7 +38,7 @@ public class UserController {
 
         Optional<User> UserInDB = userService.findByUserName(userName);
         if(UserInDB.isPresent()){
-            UserInDB.get().setPassword(user.getPassword()); ;
+            UserInDB.get().setPassword(user.getPassword());
             userService.saveUser(UserInDB.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }

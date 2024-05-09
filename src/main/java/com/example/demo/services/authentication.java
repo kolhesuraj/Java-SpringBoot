@@ -27,44 +27,42 @@ public class authentication  implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUserName(username);
-        return userOptional.map(user -> {
-            return new UserDetails() {
-                @Override
-                public Collection<? extends GrantedAuthority> getAuthorities() {
-                    return List.of();
-                }
+        return userOptional.map(user -> new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of();
+            }
 
-                @Override
-                public String getPassword() {
-                    return user.getPassword();
-                }
+            @Override
+            public String getPassword() {
+                return user.getPassword();
+            }
 
-                @Override
-                public String getUsername() {
-                    return user.getUserName();
-                }
+            @Override
+            public String getUsername() {
+                return user.getUserName();
+            }
 
-                @Override
-                public boolean isAccountNonExpired() {
-                    return false;
-                }
+            @Override
+            public boolean isAccountNonExpired() {
+                return false;
+            }
 
-                @Override
-                public boolean isAccountNonLocked() {
-                    return false;
-                }
+            @Override
+            public boolean isAccountNonLocked() {
+                return false;
+            }
 
-                @Override
-                public boolean isCredentialsNonExpired() {
-                    return false;
-                }
+            @Override
+            public boolean isCredentialsNonExpired() {
+                return false;
+            }
 
-                @Override
-                public boolean isEnabled() {
-                    return false;
-                }
-            };
-            }).orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
+            @Override
+            public boolean isEnabled() {
+                return false;
+            }
+        }).orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
     }
 
     // Adds a new user to the repository and encrypting password before saving it.
