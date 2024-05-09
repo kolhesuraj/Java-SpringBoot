@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,11 +33,11 @@ public class JWTTokenService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(User userDetails) {
+    public String generateToken(LoginUser userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, User userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, LoginUser userDetails) {
         return buildToken(extraClaims, userDetails);
     }
 
@@ -47,7 +47,7 @@ public class JWTTokenService {
 
     private String buildToken(
             Map<String, Object> extraClaims,
-            User userDetails
+            LoginUser userDetails
     ) {
         return Jwts
                 .builder()

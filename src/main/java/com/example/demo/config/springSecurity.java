@@ -44,7 +44,7 @@ public class springSecurity {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((request)-> request
-                        .requestMatchers("/auth/**","/health-check").permitAll()
+                        .requestMatchers("/health-check", "/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

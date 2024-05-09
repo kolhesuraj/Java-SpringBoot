@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.entity.LoginUser;
 import com.example.demo.entity.User;
 import com.example.demo.errorHandler.APIErrorHandler;
 import com.example.demo.repository.UserRepository;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.MissingResourceException;
 import java.util.Optional;
 
 @Service
@@ -75,7 +75,7 @@ public class AuthenticationService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public boolean ValidateUser(User user){
+    public boolean ValidateUser(LoginUser user){
         Optional<User> userFromDB = userRepository.findByUserName(user.getUserName());
         if(userFromDB.isEmpty()){
             throw new APIErrorHandler("User Not Found!", HttpStatus.NOT_FOUND);

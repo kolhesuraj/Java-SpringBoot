@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entity.LoginUser;
 import com.example.demo.entity.User;
 import com.example.demo.errorHandler.APIErrorHandler;
 import com.example.demo.services.AuthenticationService;
@@ -13,10 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,12 +47,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> Login(@RequestBody User user){
-        System.out.println(user);
+    public ResponseEntity<?> Login(@RequestBody LoginUser user){
         try {
            boolean isValid = authenticationService.ValidateUser(user);
            if(isValid) {
-              final String Token = jwtTokenService.generateToken(user);
+               final String Token = jwtTokenService.generateToken(user);
                final String message= "User Registered Successfully!";
 
                Map<String, Object> responseBody = new HashMap<>();
@@ -64,7 +62,7 @@ public class AuthenticationController {
            }
            return new ResponseEntity<>("User Not Found!",HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            throw new RuntimeException("Internal Server Error");
+            throw new APIErrorHandler("Internal Server Error: "+e.getMessage());
         }
     }
 }

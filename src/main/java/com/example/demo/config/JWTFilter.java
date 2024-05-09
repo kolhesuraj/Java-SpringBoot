@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.errorHandler.GlobalErrorHandler;
 import com.example.demo.services.JWTTokenService;
 import com.example.demo.services.AuthenticationService;
 import jakarta.servlet.FilterChain;
@@ -35,37 +36,41 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull  HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-        // Extracting token from the request header
-        String authHeader = request.getHeader("Authorization");
-        String token = null;
-        String userName = null;
+        try {
+            // Extracting token from the request header
+            String authHeader = request.getHeader("Authorization");
+            String token = null;
+            String userName = null;
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            // Extracting the token from the Authorization header
-            token = authHeader.substring(7);
-            // Extracting username from the token
-            userName = jwtTokenService.extractUsername(token);
-        }
-
-        // If username is extracted and there is no authentication in the current SecurityContext
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Loading UserDetails by username extracted from the token
-            UserDetails userDetails = getUserService().loadUserByUsername(userName);
-
-            // Validating the token with loaded UserDetails
-            if (jwtTokenService.isTokenValid(token, userDetails)) {
-                // Creating an authentication token using UserDetails
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                // Setting authentication details
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // Setting the authentication token in the SecurityContext
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                // Set userId as request attribute
-                request.setAttribute("userName", userDetails.getUsername());
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                // Extracting the token from the Authorization header
+                token = authHeader.substring(7);
+                // Extracting username from the token
+                userName = jwtTokenService.extractUsername(token);
             }
-        }
 
-        // Proceeding with the filter chain
-        filterChain.doFilter(request, response);
+            // If username is extracted and there is no authentication in the current SecurityContext
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                // Loading UserDetails by username extracted from the token
+                UserDetails userDetails = getUserService().loadUserByUsername(userName);
+
+                // Validating the token with loaded UserDetails
+                if (jwtTokenService.isTokenValid(token, userDetails)) {
+                    // Creating an authentication token using UserDetails
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    // Setting authentication details
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    // Setting the authentication token in the SecurityContext
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    // Set userId as request attribute
+                    request.setAttribute("userName", userDetails.getUsername());
+                }
+            }
+
+            // Proceeding with the filter chain
+            filterChain.doFilter(request, response);
+        }catch (Exception e){
+            GlobalErrorHandler.handleAPIError(e);
+        }
     }
 }

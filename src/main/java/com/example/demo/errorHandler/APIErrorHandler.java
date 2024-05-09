@@ -1,7 +1,11 @@
 package com.example.demo.errorHandler;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.util.Optional;
+
+@Getter
 public class APIErrorHandler extends RuntimeException {
 
     private final HttpStatus status;
@@ -10,8 +14,10 @@ public class APIErrorHandler extends RuntimeException {
         super(message);
         this.status = status;
     }
-
-    public HttpStatus getStatus() {
-        return status;
+    public APIErrorHandler(String message) {
+        super(message);
+        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
+
+
 }
