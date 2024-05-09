@@ -1,12 +1,12 @@
 package com.example.demo.config;
 
-import com.example.demo.entity.User;
 import com.example.demo.services.JWTTokenService;
 import com.example.demo.services.authentication;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull  HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         // Extracting token from the request header
         String authHeader = request.getHeader("Authorization");
         String token = null;

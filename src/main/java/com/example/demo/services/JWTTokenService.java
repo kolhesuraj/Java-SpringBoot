@@ -38,24 +38,23 @@ public class JWTTokenService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, User userDetails) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+        return buildToken(extraClaims, userDetails);
     }
 
-    public long getExpirationTime() {
-        return jwtExpiration;
+    public Date getExpirationTime() {
+        return new Date(System.currentTimeMillis() + jwtExpiration);
     }
 
     private String buildToken(
             Map<String, Object> extraClaims,
-            User userDetails,
-            long expiration
+            User userDetails
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUserName())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(getExpirationTime())
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

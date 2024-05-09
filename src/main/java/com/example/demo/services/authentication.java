@@ -2,12 +2,12 @@ package com.example.demo.services;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.sun.security.auth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +20,7 @@ public class authentication  implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     // Loads a user's details given their userName.
@@ -71,6 +70,7 @@ public class authentication  implements UserDetailsService {
     // Adds a new user to the repository and encrypting password before saving it.
     public String addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of("User"));
         userRepository.save(user);
         return "user added successfully";
     }
