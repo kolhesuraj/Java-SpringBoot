@@ -3,7 +3,6 @@ package com.example.demo.errorHandler;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import java.util.Optional;
 
 @Getter
 public class APIErrorHandler extends RuntimeException {
