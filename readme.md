@@ -16,7 +16,7 @@
 Maven is build automation tool and external dependency injection.
 
 **Official Website:** [Maven Repository ](https://mvnrepository.com/)  
-- It Lists all dependencies list in pom.xml where we can see and handle our project dependencies as we need.
+- Maven gives a Lists all dependencies list in pom.xml where we can see and handle our project dependencies as we need.
 - After adding new dependency reload project to auto download it.
 - That maven handle it owns.
 
@@ -33,7 +33,8 @@ Maven is build automation tool and external dependency injection.
 
 
 ### IOC and Application Context:
-1.  **IOC** - Inversion of controller it means we can’t create object of class we ask spring for object and spring provides it by using It.  
+1.  **IOC** (***Inversion of controller***)   
+    \- it means we can’t create object of class we ask spring for object and spring provides it by using It.  
     \- Using IOC we containerize the application.  
     \- It autodetect the class with `@Component` and generates their `bean`.
  
@@ -48,7 +49,8 @@ Maven is build automation tool and external dependency injection.
 
 **annotations give extra information about class, method and field.**
 
-1.  `@SpringBootApplication` - It defines entry point of application provided by ___springBootFramework .___  
+1.  `@SpringBootApplication` -  
+    \- It defines entry point of application provided by ___springBootFramework .___  
     \- It configures application, Enables autoconfiguration for application and starts Components scanning thought the project.   
     \- This annotation only applies on main class of project.
 

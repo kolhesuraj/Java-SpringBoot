@@ -1,7 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.services.JWTTokenService;
-import com.example.demo.services.authentication;
+import com.example.demo.services.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,8 +29,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
     // Method to lazily fetch the UserService bean from the ApplicationContext
     // This is done to avoid Circular Dependency issues
-    private authentication getUserService() {
-        return applicationContext.getBean(authentication.class);
+    private AuthenticationService getUserService() {
+        return applicationContext.getBean(AuthenticationService.class);
     }
 
     @Override

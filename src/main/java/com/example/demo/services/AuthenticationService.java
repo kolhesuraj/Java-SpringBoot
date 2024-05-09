@@ -1,8 +1,10 @@
 package com.example.demo.services;
 
 import com.example.demo.entity.User;
+import com.example.demo.errorHandler.APIErrorHandler;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,10 +15,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Optional;
 
 @Service
-public class authentication  implements UserDetailsService {
+public class AuthenticationService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
@@ -66,10 +69,17 @@ public class authentication  implements UserDetailsService {
     }
 
     // Adds a new user to the repository and encrypting password before saving it.
-    public String addUser(User user) {
+    public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(List.of("User"));
         userRepository.save(user);
-        return "user added successfully";
+    }
+
+    public boolean ValidateUser(User user){
+        Optional<User> userFromDB = userRepository.findByUserName(user.getUserName());
+        if(userFromDB.isEmpty()){
+            throw new APIErrorHandler("User Not Found!", HttpStatus.NOT_FOUND);
+        }
+        return passwordEncoder.matches(user.getPassword(),userFromDB.get().getPassword());
     }
 }

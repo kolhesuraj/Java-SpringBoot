@@ -1,7 +1,7 @@
 package com.example.demo.config;
 
 
-import com.example.demo.services.authentication;
+import com.example.demo.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class springSecurity {
     // Defines a UserDetailsService bean for user authentication
     @Bean
     public UserDetailsService userDetailsService() {
-        return new authentication();
+        return new AuthenticationService();
     }
 
 
