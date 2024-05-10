@@ -1,7 +1,7 @@
 package com.example.demo.errorHandler;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,9 +17,9 @@ public class GlobalErrorHandler {
      * @param ex - Exception happen in application
      * @return Response
      */
-    @Contract("_ -> new")
-    @ExceptionHandler({Exception.class, APIErrorHandler.class})
-    public static @NotNull ResponseEntity<Map<String, String>> handleAPIError(Exception ex) {
+    @ExceptionHandler(value = {Exception.class, APIErrorHandler.class})
+    public @NotNull ResponseEntity<Map<String, String>> handleAPIError(Exception ex) {
+        HttpHeaders headers = new HttpHeaders();
         Map<String, String> errorResponse = new HashMap<>();
         String message = ex.getMessage() != null ? ex.getMessage() : "Internal Server Error";
         errorResponse.put("message", message);
@@ -30,7 +30,8 @@ public class GlobalErrorHandler {
         }
         errorResponse.put("status code", String.valueOf(status));
 
-        return new ResponseEntity<>(errorResponse, status);
+        return new ResponseEntity<>(errorResponse,headers, status);
 
     }
+
 }

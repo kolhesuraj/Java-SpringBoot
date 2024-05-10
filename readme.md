@@ -74,6 +74,10 @@ Maven is build automation tool and external dependency injection.
 
 11. `@EnableTransactionManagement` - It allows in application to user`@Transactional` annotation. It used in main class of project.
 
+12. `@JsonIgnore` - It Make entity key private by securing that key from response to API.
+
+13. `@Transient` - The `@Transient` annotation tells serialization frameworks (like Jackson for JSON) to ignore a field when converting an object to a serialized format (e.g., JSON).
+
 ---
 
 **REST API:- Representational state transfer application programming interfaces.**
