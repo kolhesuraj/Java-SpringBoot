@@ -1,11 +1,9 @@
 package com.example.demo.config;
 
-import com.example.demo.errorHandler.GlobalErrorHandler;
 import com.example.demo.services.JWTTokenService;
 import com.example.demo.services.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,8 +32,6 @@ public class JWTFilter extends OncePerRequestFilter {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Autowired
-    private GlobalErrorHandler globalErrorHandler;
 
     // Method to lazily fetch the UserService bean from the ApplicationContext
     // This is done to avoid Circular Dependency issues
@@ -44,7 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull  HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull  HttpServletResponse response, @NotNull FilterChain filterChain) throws IOException {
         try {
             String requestURI = request.getRequestURI();
 
@@ -101,7 +97,6 @@ public class JWTFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         }catch (Exception e){
             handleException(e, response);
-
         }
     }
 
