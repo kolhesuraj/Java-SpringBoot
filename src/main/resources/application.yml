@@ -17,3 +17,9 @@ security:
   jwt:
     secret-key: test23874933Suraj/Kolhe/testSecretKeyForEncryption
     expiration-time: 3600000
+
+#logging:
+#  level:
+#    com:
+#      example:
+#        demo: DEBUG

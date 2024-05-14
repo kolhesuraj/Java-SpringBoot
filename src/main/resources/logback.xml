@@ -1,0 +1,33 @@
+<configuration version="1" label="logger">
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>
+            demoApp.log
+        </file>
+        <encoder>
+            <pattern>
+                %d{yyyy-dd-mm HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+
+    </appender>
+    <appender name="rotationalFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>demoApp.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern> demoApp-%d{yy-MM-dd_HH}.%i.log</fileNamePattern>
+            <maxFileSize> 10MB </maxFileSize>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <root level="TRACE">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rotationalFile"/>
+<!--        <appender-ref ref="file"/>-->
+    </root>
+</configuration>

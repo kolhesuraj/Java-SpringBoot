@@ -8,6 +8,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    private static final Logger logger = LoggerFactory.getLogger(JWTFilter.class);
 
 
     // Method to lazily fetch the UserService bean from the ApplicationContext
@@ -96,6 +100,7 @@ public class JWTFilter extends OncePerRequestFilter {
             // Proceeding with the filter chain
             filterChain.doFilter(request, response);
         }catch (Exception e){
+            logger.error("Error Occurred",e);
             handleException(e, response);
         }
     }

@@ -7,6 +7,7 @@ import com.example.demo.errorHandler.APIErrorHandler;
 import com.example.demo.services.AuthenticationService;
 import com.example.demo.services.JWTTokenService;
 import com.example.demo.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthenticationController {
 
     @Autowired
@@ -42,6 +44,7 @@ public class AuthenticationController {
             authenticationService.addUser(user);
             return new ResponseEntity<>("User Registered Successfully!", HttpStatus.OK);
         }catch (Exception e){
+            log.error("Error Occurred",e);
             throw new RuntimeException("Internal Server Error");
         }
     }
@@ -62,6 +65,7 @@ public class AuthenticationController {
            }
            return new ResponseEntity<>("User Not Found!",HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            log.error("Error Occurred",e);
             throw new APIErrorHandler("Internal Server Error: "+e.getMessage());
         }
     }
