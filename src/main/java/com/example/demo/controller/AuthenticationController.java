@@ -1,13 +1,15 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.entity.LoginUser;
+import com.example.demo.dto.LoginUser;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.entity.User;
-import com.example.demo.errorHandler.APIErrorHandler;
+import com.example.demo.error_handler.APIErrorHandler;
 import com.example.demo.services.AuthenticationService;
 import com.example.demo.services.JWTTokenService;
 import com.example.demo.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,35 +37,42 @@ public class AuthenticationController {
     private JWTTokenService jwtTokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO user){
         try {
             Optional<User> isUser = userService.findByUserName(user.getUserName());
             if (isUser.isPresent()) {
                 return new ResponseEntity<>("User Already Exists!", HttpStatus.BAD_REQUEST);
             }
-            authenticationService.addUser(user);
+
+            ModelMapper modelMapper = new ModelMapper();
+            User newUser = modelMapper.map(user, User.class);
+
+            authenticationService.addUser(newUser);
+
             return new ResponseEntity<>("User Registered Successfully!", HttpStatus.OK);
         }catch (Exception e){
             log.error("Error Occurred",e);
-            throw new RuntimeException("Internal Server Error");
+            throw new APIErrorHandler("Internal Server Error");
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> Login(@RequestBody LoginUser user){
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginUser user){
         try {
-           boolean isValid = authenticationService.ValidateUser(user);
+            Map<String, Object> responseBody = new HashMap<>();
+           boolean isValid = authenticationService.validateUser(user);
            if(isValid) {
                final String Token = jwtTokenService.generateToken(user);
                final String message= "User Registered Successfully!";
 
-               Map<String, Object> responseBody = new HashMap<>();
+
                responseBody.put("message", message);
                responseBody.put("token", Token);
 
                return new ResponseEntity<>(responseBody, HttpStatus.OK);
            }
-           return new ResponseEntity<>("User Not Found!",HttpStatus.NOT_FOUND);
+            responseBody.put("message", "User Not Found!");
+           return new ResponseEntity<>(responseBody,HttpStatus.NOT_FOUND);
         }catch (Exception e){
             log.error("Error Occurred",e);
             throw new APIErrorHandler("Internal Server Error: "+e.getMessage());

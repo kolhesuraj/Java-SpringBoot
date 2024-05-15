@@ -17,8 +17,8 @@ public class DemoApplication {
 	}
 
 	@Bean
-	public PlatformTransactionManager platformTransactionManager(MongoDatabaseFactory DBFactory){
-		return new MongoTransactionManager(DBFactory);
+	public PlatformTransactionManager platformTransactionManager(MongoDatabaseFactory mongoDatabaseFactory){
+		return new MongoTransactionManager(mongoDatabaseFactory);
 	}
 
 }

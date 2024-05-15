@@ -34,7 +34,9 @@ public class JWTFilter extends OncePerRequestFilter {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private static final Logger logger = LoggerFactory.getLogger(JWTFilter.class);
+    private static final Logger custom_logger = LoggerFactory.getLogger(JWTFilter.class);
+
+    private static final String AUTHERRORMESSAGE = "Please Authenticate";
 
 
     // Method to lazily fetch the UserService bean from the ApplicationContext
@@ -61,7 +63,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.getWriter().write("Please Authenticate");
+                response.getWriter().write(AUTHERRORMESSAGE);
                 return;
             }
 
@@ -74,7 +76,7 @@ public class JWTFilter extends OncePerRequestFilter {
             // If username is extracted and there is no authentication in the current SecurityContext
             if (userName == null || SecurityContextHolder.getContext().getAuthentication() != null) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.getWriter().write("Please Authenticate");
+                response.getWriter().write(AUTHERRORMESSAGE);
                 return;
             }
 
@@ -84,7 +86,7 @@ public class JWTFilter extends OncePerRequestFilter {
             // Validating the token with loaded UserDetails
             if (!jwtTokenService.isTokenValid(token, userDetails)) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.getWriter().write("Please Authenticate");
+                response.getWriter().write(AUTHERRORMESSAGE);
                 return;
             }
 
@@ -100,7 +102,7 @@ public class JWTFilter extends OncePerRequestFilter {
             // Proceeding with the filter chain
             filterChain.doFilter(request, response);
         }catch (Exception e){
-            logger.error("Error Occurred",e);
+            custom_logger.error("Error Occurred",e);
             handleException(e, response);
         }
     }
@@ -108,7 +110,6 @@ public class JWTFilter extends OncePerRequestFilter {
     private boolean isPermittedAPI(String requestURI) {
         // Add logic to check if the requestURI matches any APIs that should be permitted without authentication
         // For example:
-        // return requestURI.equals("/health-check") || requestURI.startsWith("/public/");
         // You can adjust this method based on your specific URL patterns
         return requestURI.equals("/api/health-check") || requestURI.startsWith("/api/auth/");
     }

@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.entity.LoginUser;
+import com.example.demo.dto.LoginUser;
 import com.example.demo.entity.User;
-import com.example.demo.errorHandler.APIErrorHandler;
+import com.example.demo.error_handler.APIErrorHandler;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,7 +75,7 @@ public class AuthenticationService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public boolean ValidateUser(LoginUser user){
+    public boolean validateUser(LoginUser user){
         Optional<User> userFromDB = userRepository.findByUserName(user.getUserName());
         if(userFromDB.isEmpty()){
             throw new APIErrorHandler("User Not Found!", HttpStatus.NOT_FOUND);

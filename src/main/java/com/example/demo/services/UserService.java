@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.entity.User;
-import com.example.demo.errorHandler.APIErrorHandler;
+import com.example.demo.error_handler.APIErrorHandler;
 import com.example.demo.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,36 +32,36 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findByID(ObjectId ID){
+    public Optional<User> findByID(ObjectId userID){
 
-        return userRepository.findById(ID);
+        return userRepository.findById(userID);
     }
 
-    public void deleteByID(ObjectId ID){
+    public void deleteByID(ObjectId userID){
 
-        userRepository.deleteById(ID);
+        userRepository.deleteById(userID);
     }
 
     public Optional<User> findByUserName(String username){
         return userRepository.findByUserName(username);
     }
 
-    public void updatePassword(Map<String, String> Body, String userName){
-        Optional<User> UserInDB = findByUserName(userName);
-        if(UserInDB.isPresent()) {
-            User user = UserInDB.get();
-            System.out.println(isPasswordMatched(Body.get("password"), user.getPassword()));
-            if( !isPasswordMatched(Body.get("password"), user.getPassword())) {
+    public void updatePassword(Map<String, String> body, String userName){
+        Optional<User> userInDB = findByUserName(userName);
+        if(userInDB.isPresent()) {
+            User user = userInDB.get();
+
+            if( !isPasswordMatched(body.get("password"), user.getPassword())) {
             throw new APIErrorHandler("Password Doesn't matched",HttpStatus.UNAUTHORIZED);
             }
-            user.setPassword(passwordEncoder.encode(Body.get("confirmPassword")));
+
+            user.setPassword(passwordEncoder.encode(body.get("confirmPassword")));
             saveUser(user);
         }
         throw new APIErrorHandler("User Not Found", HttpStatus.NOT_FOUND);
     }
 
     public boolean isPasswordMatched(String passwordToMatched, String passwordFromDB){
-        System.out.println(passwordToMatched+":"+passwordFromDB);
         return passwordEncoder.matches(passwordToMatched,passwordFromDB);
     }
 

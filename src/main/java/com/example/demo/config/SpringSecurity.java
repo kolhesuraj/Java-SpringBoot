@@ -2,7 +2,6 @@ package com.example.demo.config;
 
 
 import com.example.demo.services.AuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,10 +25,7 @@ import java.util.List;
 // ref: https://www.unlogged.io/post/integrating-jwt-with-spring-security-6-in-spring-boot-3
 
 @Configuration
-public class springSecurity {
-
-    @Autowired
-    private JWTFilter jwtFilter;
+public class SpringSecurity {
 
     // Defines a UserDetailsService bean for user authentication
     @Bean
@@ -39,11 +35,11 @@ public class springSecurity {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((request)-> request
+                .authorizeHttpRequests(request-> request
                         .requestMatchers("/health-check", "/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())

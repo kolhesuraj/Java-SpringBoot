@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.entity.UserDTO;
-import com.example.demo.errorHandler.APIErrorHandler;
-import com.example.demo.errorHandler.GlobalErrorHandler;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.error_handler.APIErrorHandler;
 import com.example.demo.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
@@ -12,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,16 +28,16 @@ public class UserController {
     public ResponseEntity<UserDTO> getLoggedInUser(){
         String userName = (String) request.getAttribute("userName");
 
-        Optional<User> UserInDB = userService.findByUserName(userName);
+        Optional<User> userInDB = userService.findByUserName(userName);
 
         ModelMapper modelMapper = new ModelMapper();
-        UserDTO userDto = modelMapper.map(UserInDB, UserDTO.class);
+        UserDTO userDto = modelMapper.map(userInDB, UserDTO.class);
 
          return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @PutMapping("/update-password")
-    public ResponseEntity<?> updateUser(@RequestBody Map<String, String> user){
+    public ResponseEntity<String> updateUser(@RequestBody Map<String, String> user){
         try {
             String userName = (String) request.getAttribute("userName");
             if (!userName.isEmpty()) {

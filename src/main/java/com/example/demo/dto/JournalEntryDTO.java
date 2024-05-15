@@ -1,18 +1,14 @@
-package com.example.demo.entity;
+package com.example.demo.dto;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "journal_entries")
-@Getter
-@Setter
-public class JournalEntry {
+@Data
+public class JournalEntryDTO {
 
     @Id
     private ObjectId id;
@@ -23,5 +19,4 @@ public class JournalEntry {
     private String content;
 
     private LocalDateTime date;
-
 }

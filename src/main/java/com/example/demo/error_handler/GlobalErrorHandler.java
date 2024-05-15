@@ -1,4 +1,4 @@
-package com.example.demo.errorHandler;
+package com.example.demo.error_handler;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;

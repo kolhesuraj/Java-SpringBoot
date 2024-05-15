@@ -49,16 +49,16 @@ Maven is build automation tool and external dependency injection.
 
 **annotations give extra information about class, method and field.**
 
-1.  `@SpringBootApplication` -  
+1. `@SpringBootApplication` -  
     \- It defines entry point of application provided by ___springBootFramework .___  
     \- It configures application, Enables autoconfiguration for application and starts Components scanning thought the project.   
     \- This annotation only applies on main class of project.
 
-2.  `@Component` - Component helps to IOC to create its bean.
+2. `@Component` - Component helps to IOC to create its bean.
 
-3.  `@RestController` - Defines controller of application
+3. `@RestController` - Defines controller of application
 
-4.  `@GetMapping` - maps the get method of API
+4. `@GetMapping` - maps the get method of API
  
 5. `@Autowired` - It injects the dependencies into respective class.
  
@@ -77,6 +77,8 @@ Maven is build automation tool and external dependency injection.
 12. `@JsonIgnore` - It Make entity key private by securing that key from response to API.
 
 13. `@Transient` - The `@Transient` annotation tells serialization frameworks (like Jackson for JSON) to ignore a field when converting an object to a serialized format (e.g., JSON).
+
+14. `@Slf4j` - This annotation for class allows to use logger provided by lombok in that class.
 
 ---
 
@@ -112,7 +114,7 @@ Maven is build automation tool and external dependency injection.
     2. `@Setter` - It generates setters for class entities.  
     3. `@NonNull` - validate entity before save that it have to be not null  
     4. `@DBRef` - It refers to another collection mention while declaration of entity**
-
+    5. `@Data` - It implements `@Getter`, `@Setter` like annotation on entity.
 
 ### Transaction:
 

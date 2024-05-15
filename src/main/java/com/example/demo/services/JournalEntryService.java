@@ -1,10 +1,15 @@
 package com.example.demo.services;
 
+import com.example.demo.config.JWTFilter;
 import com.example.demo.entity.JournalEntry;
 import com.example.demo.entity.User;
+import com.example.demo.error_handler.APIErrorHandler;
 import com.example.demo.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +26,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName) {
         try {
@@ -32,8 +38,7 @@ public class JournalEntryService {
                 userService.saveUser(user.get());
             }
         } catch (Exception e) {
-            System.out.println(e);
-            throw new RuntimeException("An error occurred while saving the entry.", e);
+            throw new APIErrorHandler("An error occurred while saving the entry."+ e);
         }
     }
 
@@ -45,16 +50,16 @@ public class JournalEntryService {
         return journalEntryRepository.findAll();
     }
 
-    public Optional<JournalEntry> findByID(ObjectId ID){
-        return journalEntryRepository.findById(ID);
+    public Optional<JournalEntry> findByID(ObjectId journalEntryID){
+        return journalEntryRepository.findById(journalEntryID);
     }
 
-    public void deleteByID(ObjectId ID, String userName){
+    public void deleteByID(ObjectId journalEntryID, String userName){
         Optional<User> user = userService.findByUserName(userName);
         if(user.isPresent()) {
-            user.get().getJournalEntries().removeIf(x -> x.getId().equals(ID));
+            user.get().getJournalEntries().removeIf(x -> x.getId().equals(journalEntryID));
             userService.saveUser(user.get());
-            journalEntryRepository.deleteById(ID);
+            journalEntryRepository.deleteById(journalEntryID);
         }
     }
 

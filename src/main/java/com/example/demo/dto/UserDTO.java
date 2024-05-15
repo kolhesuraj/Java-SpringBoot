@@ -1,5 +1,6 @@
-package com.example.demo.entity;
+package com.example.demo.dto;
 
+import com.example.demo.entity.JournalEntry;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
