@@ -110,7 +110,7 @@ public class JWTFilter extends OncePerRequestFilter {
         // For example:
         // return requestURI.equals("/health-check") || requestURI.startsWith("/public/");
         // You can adjust this method based on your specific URL patterns
-        return requestURI.equals("/health-check") || requestURI.startsWith("/auth/");
+        return requestURI.equals("/api/health-check") || requestURI.startsWith("/api/auth/");
     }
 
     private void handleException(Exception ex, ServletResponse response) throws IOException {

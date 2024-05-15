@@ -25,9 +25,8 @@
             <maxHistory>10</maxHistory>
         </rollingPolicy>
     </appender>
-    <root level="TRACE">
+    <root level="INFO">
         <appender-ref ref="console"/>
-        <appender-ref ref="rotationalFile"/>
 <!--        <appender-ref ref="file"/>-->
     </root>
 </configuration>
