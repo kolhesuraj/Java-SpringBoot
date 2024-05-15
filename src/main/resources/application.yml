@@ -18,6 +18,11 @@ security:
     secret-key: test23874933Suraj/Kolhe/testSecretKeyForEncryption
     expiration-time: 3600000
 
+whether:
+  api:
+    key: 2Wuq0LiJTRWaHwXaVUQmwJnVjx6hi3Fo
+    url: https://api.tomorrow.io/v4/weather/forecast?location=LOCATION&apikey=API_KEY
+
 #logging:
 #  level:
 #    com:

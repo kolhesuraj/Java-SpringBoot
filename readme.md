@@ -137,4 +137,11 @@ After adding annotation, we also have to create a `bean` of `PlatformTransaction
 
 ### Spring Security:
 
-*   Spring Security is the **customized framework** that used to handle `authentication and authorization` in spring boot application.
+* Spring Security is the **customized framework** that used to handle `authentication and authorization` in spring boot application.
+* In Spring Security we can apply our custom authorization and authentication to API endpoints.
+* Spring Security provides filter method that we can use for verify our `JWTToken` provided by user.
+
+
+### RestTemplate
+
+* It allows to communicate between another server by making rest api call.
